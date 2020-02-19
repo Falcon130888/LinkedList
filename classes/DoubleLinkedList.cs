@@ -36,6 +36,101 @@ namespace LinkedList
                 temp.Previous = node;
             count++;
         }
+        // Добавление по индексу
+        public bool AddById(int index, T newElement)
+        {
+            int i = 0;
+            DoublyNode<T> current = head;
+
+            // поиск индекса узла
+            while (current != null)
+            {
+                if (i == index)
+                {
+                    break;
+                }
+                current = current.Next;
+                i++;
+            }
+            if (current != null)
+            {
+                DoublyNode<T> newNode = new DoublyNode<T>(newElement); //создаем объект
+                current.Previous.Next = newNode;
+                newNode.Previous = current.Previous;
+                current.Previous = newNode;
+                newNode.Next = current;
+
+                //// если узел не последний
+                //if (current.Next != null)
+                //{
+                //    current.Next.Previous = current.Previous;
+                //}
+                //else
+                //{
+                //    // если последний, переустанавливаем tail
+                //    tail = current.Previous;
+                //}
+
+                //// если узел не первый
+                //if (current.Previous != null)
+                //{
+                //    current.Previous.Next = current.Next;
+                //}
+                //else
+                //{
+                //    // если первый, переустанавливаем head
+                //    head = current.Next;
+                //}
+                count++;
+                return true;
+            }
+            return false;
+        }
+        // удаление по индексу
+        public bool RemoveById(int index)
+        {
+            int i = 0;
+            DoublyNode<T> current = head;
+
+            // поиск удаляемого узла
+            while (current != null)
+            {
+                if (i == index)
+                {
+                    break;
+                }
+                current = current.Next;
+                i++;
+            }
+            if (current != null)
+            {
+                // если узел не последний
+                if (current.Next != null)
+                {
+                    current.Next.Previous = current.Previous;
+                }
+                else
+                {
+                    // если последний, переустанавливаем tail
+                    tail = current.Previous;
+                }
+
+                // если узел не первый
+                if (current.Previous != null)
+                {
+                    current.Previous.Next = current.Next;
+                }
+                else
+                {
+                    // если первый, переустанавливаем head
+                    head = current.Next;
+                }
+                count--;
+                return true;
+            }
+            return false;
+        }
+
         // удаление
         public bool Remove(T data)
         {

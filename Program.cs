@@ -20,7 +20,8 @@ namespace LinkedList
             String str;
             do
             {
-                Console.Write("1 - добавить в конец, 2 - добавить в начало, 3 - удалить по имени, 4 - выбрать по индексу, 0 - для выхода: ");
+                Console.Write("Выберите действие:\n 1 - добавить в конец \n 2 - добавить в начало \n" +
+                    " 3 - удалить по имени \n 4 - удалить по индексу \n 0 - для выхода: ");
                  str = Console.ReadLine();
                 switch (str)
                 {
@@ -38,8 +39,29 @@ namespace LinkedList
                         break;
                     case "4":
                         Console.Write("введите индекс: ");
-                        var asd = linkedList.Where( q => q.hea)
-                        linkedList.Remove(Console.ReadLine());
+                        try
+                        {
+                            int index = Convert.ToInt32(Console.ReadLine());
+                            linkedList.RemoveById(index);
+                        }
+                        catch
+                        {
+                            Console.Write("ОШИБКА! \n");
+                        }
+                        break;
+                    case "5":
+                        try
+                        {
+                            Console.Write("введите индекс: ");
+                            int index = Convert.ToInt32(Console.ReadLine());
+                            Console.Write("введите значение: ");
+                            String value = Console.ReadLine();
+                            linkedList.AddById(index, value);
+                        }
+                        catch
+                        {
+                            Console.Write("ОШИБКА! \n");
+                        }
                         break;
                     case "0":
                         return;
