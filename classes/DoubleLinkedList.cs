@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
+using System;
 
 namespace LinkedList
 {
@@ -41,7 +42,6 @@ namespace LinkedList
         {
             int i = 0;
             DoublyNode<T> current = head;
-
             // поиск индекса узла
             while (current != null)
             {
@@ -54,33 +54,22 @@ namespace LinkedList
             }
             if (current != null)
             {
-                DoublyNode<T> newNode = new DoublyNode<T>(newElement); //создаем объект
-                current.Previous.Next = newNode;
-                newNode.Previous = current.Previous;
-                current.Previous = newNode;
-                newNode.Next = current;
-
-                //// если узел не последний
-                //if (current.Next != null)
-                //{
-                //    current.Next.Previous = current.Previous;
-                //}
-                //else
-                //{
-                //    // если последний, переустанавливаем tail
-                //    tail = current.Previous;
-                //}
-
-                //// если узел не первый
-                //if (current.Previous != null)
-                //{
-                //    current.Previous.Next = current.Next;
-                //}
-                //else
-                //{
-                //    // если первый, переустанавливаем head
-                //    head = current.Next;
-                //}
+                if (current.Previous == null)
+                {
+                    AddFirst(newElement);
+                }
+                else if (current.Next == null)
+                {
+                    AddLast(newElement);
+                }
+                else
+                {
+                    DoublyNode<T> newNode = new DoublyNode<T>(newElement); //создаем объект
+                    current.Previous.Next = newNode;
+                    newNode.Previous = current.Previous;
+                    current.Previous = newNode;
+                    newNode.Next = current;
+                }
                 count++;
                 return true;
             }
@@ -130,7 +119,6 @@ namespace LinkedList
             }
             return false;
         }
-
         // удаление
         public bool Remove(T data)
         {
@@ -174,8 +162,36 @@ namespace LinkedList
             return false;
         }
 
+        // пузырьковая сортировка списка
+        public void BubbleSort()
+        {
+            DoublyNode<T> current, index;
+            T temp;
+            //проверяем наличие элементов
+            if (head == null)
+            {
+                return;
+            }
+            else
+            {
+                //Начинаем с головного элемента
+                for (current = head; current.Next != null; current = current.Next)
+                {
+                    //Index will point to node next to current  
+                    for (index = current.Next; index != null; index = index.Next)
+                    {
+                        //If current's data is greater than index's data, swap the data of current and index  
+                        if (current.Data.ToString().CompareTo(index.Data.ToString()) > 0)
+                        {
+                            temp = current.Data;
+                            current.Data = index.Data;
+                            index.Data = temp;
+                        }
+                    }
+                }
+            }
+        }
         public int Count { get { return count; } }
-        public bool IsEmpty { get { return count == 0; } }
 
         public void Clear()
         {
@@ -184,16 +200,22 @@ namespace LinkedList
             count = 0;
         }
 
-        public bool Contains(T data)
+        public T  GetByIndex(int index)
         {
-            DoublyNode<T> current = head;
-            while (current != null)
+            int i = 0;
+            if (index < this.Count - 1)
             {
-                if (current.Data.Equals(data))
-                    return true;
-                current = current.Next;
+                foreach (var item in this)
+                {
+                    if (i == index)return item;
+                    i++;
+                }
             }
-            return false;
+            else
+            {
+                Console.Write("индекс превышает размер списка\n");
+            }
+            return default;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -208,16 +230,6 @@ namespace LinkedList
             {
                 yield return current.Data;
                 current = current.Next;
-            }
-        }
-
-        public IEnumerable<T> BackEnumerator()
-        {
-            DoublyNode<T> current = tail;
-            while (current != null)
-            {
-                yield return current.Data;
-                current = current.Previous;
             }
         }
     }

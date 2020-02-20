@@ -7,13 +7,16 @@ namespace LinkedList
     {
         static void Main()
         {
-            DoublyLinkedList<string> linkedList = new DoublyLinkedList<string>();
+            DoublyLinkedList<string> LinkedList = new DoublyLinkedList<string>();
             // добавление элементов
-            linkedList.AddLast("Bob");
-            linkedList.AddLast("Bill");
-            linkedList.AddLast("Tom");
-            linkedList.AddFirst("Kate");
-            foreach (var item in linkedList)
+            LinkedList.AddLast("Bob");
+            LinkedList.AddLast("Bill");
+            LinkedList.AddLast("Tom");
+            LinkedList.AddLast("Stas");
+            LinkedList.AddLast("Viktor");
+            LinkedList.AddFirst("Kate");
+
+            foreach (var item in LinkedList)
             {
                 Console.WriteLine(item);
             }
@@ -21,28 +24,39 @@ namespace LinkedList
             do
             {
                 Console.Write("Выберите действие:\n 1 - добавить в конец \n 2 - добавить в начало \n" +
-                    " 3 - удалить по имени \n 4 - удалить по индексу \n 0 - для выхода: ");
+                    " 3 - добавить по индексу \n 4 - удалить по индексу \n 5 - получение элемента по индексу \n" +
+                    " 6 - узнать количество элементов в списке \n 7 - сортировать список \n 0 - для выхода \n ");
                  str = Console.ReadLine();
                 switch (str)
                 {
                     case "1":
                         Console.Write("введите значение: ");
-                        linkedList.AddLast(Console.ReadLine());
+                        LinkedList.AddLast(Console.ReadLine());
                         break;
                     case "2":
                         Console.Write("введите значение: ");
-                        linkedList.AddFirst(Console.ReadLine());
+                        LinkedList.AddFirst(Console.ReadLine());
                         break;
                     case "3":
-                        Console.Write("введите значение: ");
-                        linkedList.Remove(Console.ReadLine());
+                        try
+                        {
+                            Console.Write("введите индекс: ");
+                            int index = Convert.ToInt32(Console.ReadLine());
+                            Console.Write("введите значение: ");
+                            String value = Console.ReadLine();
+                            LinkedList.AddById(index, value);
+                        }
+                        catch
+                        {
+                            Console.Write("ОШИБКА! \n");
+                        }
                         break;
                     case "4":
                         Console.Write("введите индекс: ");
                         try
                         {
                             int index = Convert.ToInt32(Console.ReadLine());
-                            linkedList.RemoveById(index);
+                            LinkedList.RemoveById(index);
                         }
                         catch
                         {
@@ -50,34 +64,35 @@ namespace LinkedList
                         }
                         break;
                     case "5":
+
                         try
                         {
                             Console.Write("введите индекс: ");
                             int index = Convert.ToInt32(Console.ReadLine());
-                            Console.Write("введите значение: ");
-                            String value = Console.ReadLine();
-                            linkedList.AddById(index, value);
+                            var result = LinkedList.GetByIndex(index);
+                            if( result != null) Console.WriteLine("Значение по индексу: {0} \n", result);
                         }
                         catch
                         {
                             Console.Write("ОШИБКА! \n");
                         }
+                        Console.ReadKey();
+                        break;
+                    case "6":
+                        Console.Write("всего элементов в списке: {0} \n", LinkedList.Count());
+                        Console.ReadKey();
+                        break;
+                    case "7":
+                        LinkedList.BubbleSort();
                         break;
                     case "0":
                         return;
                 }
-                    foreach (var item in linkedList)
+                    foreach (var item in LinkedList)
                     {
                         Console.WriteLine(item);
                     }
             } while (str != "0");
-
-            // перебор с последнего элемента
-            //foreach (var t in linkedList.BackEnumerator())
-            //{
-            //    Console.WriteLine(t);
-            //}
-
         }
     }
 }

@@ -1,12 +1,13 @@
 ﻿namespace LinkedList
 {
-    internal class DoublyNode
+    public class DoublyNode<T>
     {
-        private object newElement;
-
-        public DoublyNode(object newElement)
+        public DoublyNode(T data)
         {
-            this.newElement = newElement;
+            Data = data;
         }
+        public T Data { get; set; }
+        public DoublyNode<T> Previous { get; set; }
+        public DoublyNode<T> Next { get; set; }
     }
 }
